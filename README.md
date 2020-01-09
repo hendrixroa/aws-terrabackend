@@ -1,12 +1,4 @@
-# Supermassive Infra bootstrap
-
-Repository bootstrap to perform infra with security best practices and more.
-
-## Features
-- IAM Groups
-- IAM Password policy
-
-## TODO
+# AWS Terra Backend
 
 - Backend Terraform automation
 - AWS Config
