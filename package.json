@@ -17,5 +17,6 @@
     "enquirer": "^2.3.2",
     "ts-node": "^8.0.3",
     "typescript": "^3.6.4"
-  }
+  },
+  "publishConfig": { "registry": "https://npm.pkg.github.com/" }
 }
