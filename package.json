@@ -1,6 +1,6 @@
 {
   "name": "aws-terrabackend",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -19,6 +19,6 @@
     "typescript": "^3.6.4"
   },
   "bin": {
-    "aws-terrabackend": "node -r ts-node/register index.ts"
+    "aws-terrabackend": "node -r ts-node/register ./index.ts"
   }
 }
