@@ -1,10 +1,10 @@
 {
   "name": "aws-terrabackend",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "yarn tsc"
+    "build": "yarn tsc && chmod +x dist/index.js"
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +19,6 @@
     "typescript": "^3.6.4"
   },
   "bin": {
-    "aws-terrabackend": "./dist/index.js"
+    "terrabackend": "./dist/index.js"
   }
 }
