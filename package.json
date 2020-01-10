@@ -1,7 +1,8 @@
 {
   "name": "aws-terrabackend",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "description": "",
+  "main": "./index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "yarn tsc && chmod +x dist/index.js"
@@ -19,6 +20,6 @@
     "typescript": "^3.6.4"
   },
   "bin": {
-    "terrabackend": "dist/index.js"
+    "terrabackend": "./index.js"
   }
 }
