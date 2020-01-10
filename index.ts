@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import * as aws from 'aws-sdk';
 import { prompt } from 'enquirer';
 
@@ -50,6 +52,8 @@ export class BackendTF {
 
   public async init() {
 
+    console.log('Profile: ', process.env.AWS_PROFILE);
+
     const { repoName } = await prompt({
       type: 'input',
       name: 'repoName',
@@ -67,7 +71,4 @@ export class BackendTF {
 }
 
 const backend: BackendTF = new BackendTF();
-backend
-  .init()
-  .then()
-  .catch();
+backend.init().catch(() => {});

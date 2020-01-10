@@ -9,7 +9,6 @@
     "baseUrl": ".",
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "outDir": "dist",
     "sourceMap": false,
     "typeRoots": [
       "./node_modules/@types"

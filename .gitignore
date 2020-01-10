@@ -113,5 +113,4 @@ yarn_audit.json
 .idea/
 yarn-error.log
 
-# Docker Audit
-snyk_docker.json
+
