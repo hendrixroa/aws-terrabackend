@@ -1,11 +1,11 @@
 {
   "name": "aws-terrabackend",
-  "version": "1.0.20",
+  "version": "1.0.21",
   "description": "",
   "main": "./index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "yarn tsc && chmod +x dist/index.js"
+    "build": "yarn tsc && chmod +x index.js"
   },
   "author": "",
   "license": "ISC",
