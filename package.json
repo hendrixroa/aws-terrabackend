@@ -1,10 +1,10 @@
 {
   "name": "aws-terrabackend",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "",
-  "main": "./index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "yarn tsc"
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +19,6 @@
     "typescript": "^3.6.4"
   },
   "bin": {
-    "aws-terrabackend": "node -r ts-node/register ./index.ts"
+    "aws-terrabackend": "./dist/index.js"
   }
 }
