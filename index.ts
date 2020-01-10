@@ -2,17 +2,13 @@
 
 import * as aws from 'aws-sdk';
 import { prompt } from 'enquirer';
-
-const s3 = new aws.S3();
-const user: string = 'deploy';
+import * as fs from 'fs';
 
 export class BackendTF {
 
-  constructor() {
-    
-  }
-
   private async createS3Bucket(bucketName: string, region: string) {
+    const s3 = new aws.S3();
+
     const params = {
       Bucket: bucketName,
       ACL: 'private',
@@ -20,6 +16,7 @@ export class BackendTF {
         LocationConstraint: region
       },
     };
+    
     await s3.createBucket(params).promise();
 
     const publicAccess = {
@@ -47,12 +44,41 @@ export class BackendTF {
     };
     await s3.putBucketEncryption(bucketEncryption).promise();
 
-    console.log(`Bucket ${bucketName} Created.`);
+    const bucketVersioning = {
+      Bucket: bucketName,
+      VersioningConfiguration: {
+        MFADelete: 'Disabled', 
+        Status: 'Enabled',
+      },
+    }
+    await s3.putBucketVersioning(bucketVersioning).promise();
+
+    console.info(`Bucket ${bucketName} Created.`);
+  }
+
+  private async createDynamoDBTable(name: string) {
+    
+    const dynamodb = new aws.DynamoDB();
+
+    const params = {
+      TableName : name,
+      KeySchema: [       
+        { AttributeName: 'LockID', KeyType: 'HASH'},
+      ],
+      AttributeDefinitions: [       
+        { AttributeName: 'LockID', AttributeType: 'S' },
+      ],
+      ProvisionedThroughput: {       
+        ReadCapacityUnits: 5, 
+        WriteCapacityUnits: 5,
+      },
+    };
+    await dynamodb.createTable(params).promise();
+
+    console.info(`DynamoDB Table ${name} is created!`)
   }
 
   public async init() {
-
-    console.log('Profile: ', process.env.AWS_PROFILE);
 
     const { repoName } = await prompt({
       type: 'input',
@@ -60,15 +86,38 @@ export class BackendTF {
       message: 'Name of repository or project?',
     });
 
+    const { nameFileBackend } = await prompt({
+      type: 'input',
+      name: 'nameFileBackend',
+      message: 'Name of file tfbackend?',
+      initial: 'staging.tfbackend',
+    });
+
     const { region } = await prompt({
       type: 'input',
       name: 'region',
       message: 'Region?',
-      initial: 'us-east-2'
+      initial: 'us-east-2',
     });
 
+    aws.config.update({ region });
+
+    await this.createS3Bucket(`${repoName}-state`, region);
+    await this.createDynamoDBTable(`${repoName}_lock`);
+
+    // Generate <name>.tfbackend file
+    const backendFileContent = 
+`
+bucket = "${repoName}_state"
+key    = "state.tfstate"
+region = "${region}"
+dynamodb_table = "${repoName}_lock"
+`;
+
+    fs.writeFileSync(`${nameFileBackend}.tfbackend`, backendFileContent);
+    console.info(`Backend file: ${nameFileBackend}.tfbackend generated successfully`);
   }
 }
 
 const backend: BackendTF = new BackendTF();
-backend.init().catch(() => {});
+backend.init().catch((err: any) => { console.error(err); });
