@@ -89,8 +89,8 @@ export class BackendTF {
     const { nameFileBackend } = await prompt({
       type: 'input',
       name: 'nameFileBackend',
-      message: 'Name of file tfbackend?',
-      initial: 'staging.tfbackend',
+      message: 'Name of file <your-custom-name>.tfbackend?',
+      initial: 'staging',
     });
 
     const { region } = await prompt({
